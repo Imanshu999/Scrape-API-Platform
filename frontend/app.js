@@ -1,0 +1,1 @@
+async function scrape(){const out=document.getElementById("out");out.textContent="Use the FastAPI /docs interface to authenticate and scrape.";}
