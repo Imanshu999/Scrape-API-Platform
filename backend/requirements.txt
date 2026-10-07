@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+aiosqlite
+pydantic-settings
+python-dotenv
+httpx
+beautifulsoup4
+playwright
+python-multipart
+PyJWT
+slowapi
+pytest
