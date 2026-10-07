@@ -1,1 +1,13 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Scrape API Platform</title><link rel="stylesheet" href="style.css"></head><body><main><section class="card"><h1>Scrape API Platform</h1><p>Extract public or authorized webpage metadata and expose it through your API.</p><div class="row"><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"></div><div class="row"><button onclick="register()">Register</button><button onclick="login()">Login</button></div><div class="row"><input id="url" placeholder="https://example.com"><button onclick="runScrape()">Scrape</button></div><p id="key"></p><pre id="out"></pre></section></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Scrape API Platform</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="shell">
+<header><div class="brand">SCRAPE<span>API</span></div><div class="badge">PUBLIC DATA PLATFORM</div></header>
+<section class="hero"><div><p class="eyebrow">URL → DATA → API</p><h1>Turn a website into<br><span>your own API.</span></h1><p class="sub">Add a public or authorized website, crawl its available pages, normalize the data and access the result from your app.</p></div></section>
+<section class="grid">
+<div class="panel auth"><h2>Account</h2><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><div class="buttons"><button onclick="register()">Create account</button><button class="ghost" onclick="login()">Log in</button></div><small id="authStatus">Not connected</small></div>
+<div class="panel source"><div class="panelHead"><h2>New source</h2><span>01</span></div><input id="url" placeholder="https://example.com"><div class="settings"><label>Pages <input id="pages" type="number" min="1" max="200" value="25"></label><label>Depth <input id="depth" type="number" min="0" max="5" value="2"></label></div><button class="primary" onclick="runScrape()">Start deep scrape</button><div id="progress">Ready</div></div>
+</section>
+<section class="panel result"><div class="panelHead"><h2>API access</h2><span>02</span></div><div class="keybox" id="key">No API key yet</div><div class="endpoint" id="endpoint">Your API endpoint will appear here</div><button class="ghost" onclick="copyApi()">Copy API endpoint</button></section>
+<section class="panel data"><div class="panelHead"><h2>Latest response</h2><span>03</span></div><pre id="out">Run a scrape to see normalized source data.</pre></section>
+<footer>Use only on websites and content you are authorized to access. No authentication, CAPTCHA, paywall, DRM or access-control bypass.</footer>
+</div><script src="app.js"></script></body></html>
