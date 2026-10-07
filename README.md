@@ -1,38 +1,59 @@
 # Scrape API Platform
 
-A FastAPI service for extracting public/authorized webpage metadata and exposing normalized results through API keys.
+A FastAPI platform that turns **public or authorized webpages** into normalized, continuously refreshable API data.
 
-## Scope
-This project is intended for websites and content you are authorized to access. It does not bypass authentication, DRM, paywalls, CAPTCHA/anti-bot controls, or expose protected media streams.
+## What it does
 
-## Features
-- API-key registration and revocation
-- JWT-protected management endpoints
-- Public scrape endpoint
-- Cached normalized page metadata
-- SSRF protections for private/local network targets
-- Rate limiting
-- SQLite by default, PostgreSQL via DATABASE_URL
-- Playwright fallback for JavaScript-rendered public pages
-- Docker support
+User flow:
 
-## Quick start
+1. Register/login.
+2. Submit a source URL.
+3. The crawler discovers sitemap URLs and same-origin links.
+4. It extracts page metadata, visible text, links, images, JSON-LD and OpenGraph/meta fields.
+5. JavaScript-rendered public pages can use a Playwright browser fallback.
+6. Results are stored in the database.
+7. The user receives an API key.
+8. Their app/website calls `/v1/data/{source_id}` with `X-API-Key`.
+9. A persistent deployment can refresh sources on a schedule.
+
+## Safety and scope
+
+Use this only for websites/content you are authorized to access. The scraper does **not** bypass authentication, DRM, paywalls, CAPTCHA/anti-bot controls, access restrictions, or protected media delivery.
+
+## Main endpoints
+
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /auth/keys`
+- `POST /scrape`
+- `POST /scrape/sources`
+- `GET /scrape/sources`
+- `POST /scrape/sources/{source_id}/refresh`
+- `GET /v1/data?url=...`
+- `GET /v1/data/{source_id}`
+- `GET /health`
+- `GET /docs`
+
+## Install
 
 ```bash
 cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+playwright install chromium
 cp .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/docs`.
+## Production refresh
 
-For browser rendering:
+For an always-running service, deploy FastAPI behind a process manager and run a durable scheduler/worker that periodically calls the source refresh operation. SQLite is suitable for development; PostgreSQL is recommended for production.
+
+## Example API call
 
 ```bash
-playwright install chromium
+curl -H "X-API-Key: sk_..." "https://YOUR-DOMAIN/v1/data/1"
 ```
 
-See the API docs for authentication and scraping examples.
+The response contains the normalized source object and all crawled page records currently stored for that source.
